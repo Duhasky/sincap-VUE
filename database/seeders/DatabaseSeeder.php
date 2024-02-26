@@ -33,7 +33,22 @@ class DatabaseSeeder extends Seeder
         $role->abilities()->create([ 'name' => 'user_delete' ]);
         
         $role->abilities()->create([ 'name' => 'role_admin' ]);
+
+        \App\Models\Group::create(['name' => 'CV']);
+        \App\Models\Group::create(['name' => 'GDE']);
+        \App\Models\Group::create(['name' => 'PCC']);
         
         \App\Models\User::factory(100)->create();
+        
+        for ($i = 0; $i < 100; $i++) {
+          $person = \App\Models\Person::factory()->create();
+
+          // Crie 3 fotos para cada pessoa com diferentes tamanhos
+          $photoSizes = [200, 300, 400];
+          
+          foreach ($photoSizes as $size) {
+              $person->photos()->create(['photo' => "https://picsum.photos/{$size}"]);
+          }
+      }
     }
 }
