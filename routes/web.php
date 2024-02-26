@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Permissions\{RoleController, RoleAbilityController, RoleAbilityCreateDelete, RoleControllerCreate, RoleControllerUpdate, RoleUserCreateDelete};
+use App\Http\Controllers\Person\PersonControllerManagement;
 use App\Http\Controllers\Profile\{ ProfileControllerDestroy, ProfileControllerEdit, ProfileControllerUpdate };
 use App\Http\Controllers\User\{UserControllerCreate, UserControllerUpdate, UserControllerActive, UserControllerDelete, UserControllerManagement, UserControllerRegister, UserControllerEdit};
 use App\Models\User;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Home', ['user' => User::with('roles')->where('id', auth()->user()->id)->get()] );
+    return Inertia::render('Home', ['user' => User::with('roles')->loged()] );
 })->name('Home');
 
 Route::get('/user/management', UserControllerManagement::class)->name('user.management')->middleware('can:user_read');
@@ -29,6 +30,8 @@ Route::post('/permissions/{role_id}/{abilities}', RoleAbilityCreateDelete::class
 
 Route::post('/role_user/{user_id}/{role_id}', RoleUserCreateDelete::class)->name('role.user.create.delete');
 });
+
+Route::get('/person', PersonControllerManagement::class)->name('person.management');
 
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 Route::get('/profile', ProfileControllerEdit::class)->name('profile.edit');

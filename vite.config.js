@@ -36,7 +36,7 @@ export default defineConfig({
           }),
           Components({
             dirs: [
-                './resources/js/Components',
+              './resources/js/Components',
               './resources/js/Layouts',
               './resources/js/Pages',
               './resources/js/Pages/Auth',

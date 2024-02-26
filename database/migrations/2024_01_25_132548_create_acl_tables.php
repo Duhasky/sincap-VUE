@@ -23,15 +23,13 @@ return new class () extends Migration {
         });
 
         Schema::create('ability_role', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('ability_id')->constrained(table: 'abilities')->cascadeOnDelete();
-            $table->foreignId('role_id')->constrained(table: 'roles')->cascadeOnDelete();
+            $table->foreignId('ability_id')->constrained(table: 'abilities');
+            $table->foreignId('role_id')->constrained(table: 'roles');
         });
 
         Schema::create('role_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('role_id')->constrained(table: 'roles')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained(table: 'users')->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained(table: 'roles');
+            $table->foreignId('user_id')->constrained(table: 'users');
         });
     }
 
