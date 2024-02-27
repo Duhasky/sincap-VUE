@@ -1,13 +1,16 @@
 <template>
   <div class="container mx-auto pr-2">
     <div
-      class="max-w-md mx-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden"
+      class="max-w-md mx-auto bg-white dark:bg-gray-700 rounded-lg overflow-hidden"
     >
       <!-- Cabeçalho -->
       <div class="bg-gray-200 dark:bg-gray-600 p-4">
         <h2 class="text-xl font-bold text-gray-800 dark:text-white">
-          Título do Card
+          <slot name="surname"></slot>
         </h2>
+        <div class="font-normal text-gray-300">
+          <slot name="name"></slot>
+        </div>
       </div>
 
       <!-- Imagem -->
@@ -16,15 +19,14 @@
         <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
           <!-- Iterar sobre os slides -->
           <div
-            v-for="(slide, index) in slides"
-            :key="index"
-            :class="{ hidden: index !== activeSlide }"
+            v-for="slide in slides"
+            :key="slide.id"
+            :class="{ hidden: slide.id !== activeSlide }"
             class="duration-700 ease-in-out"
           >
             <img
-              :src="slide.image"
+              :src="slide.photo"
               class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-              alt="..."
             />
           </div>
         </div>
@@ -33,18 +35,18 @@
           class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2"
         >
           <button
-            v-for="(slide, index) in slides"
-            :key="index"
+            v-for="slide in slides"
+            :key="slide.id"
             type="button"
             :class="{
               'w-3 h-3 rounded-full': true,
-              'bg-gray-800': index === activeSlide,
-              'bg-white': index !== activeSlide,
+              'bg-gray-800': slide.id === activeSlide,
+              'bg-white': slide.id !== activeSlide,
             }"
-            @click="changeSlide(index)"
-            :aria-current="index === activeSlide"
-            :aria-label="`Slide ${index + 1}`"
-          ></button>
+            @click="changeSlide(slide.id)"
+            :aria-current="slide.id === activeSlide"
+            :aria-label="`Slide ${slide.id + 1}`"
+          />
         </div>
 
         <!-- Slider controls -->
@@ -53,57 +55,29 @@
           class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
           @click="prevSlide"
         >
-          <span
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-          >
-            <svg
-              class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 1 1 5l4 4"
-              />
-            </svg>
-            <span class="sr-only">Previous</span>
-          </span>
+          <i-mingcute-left-fill
+            class="w-10 h-10 text-white dark:text-gray-800 rtl:rotate-180 hover:text-gray-800 dark:hover:text-white"
+            aria-hidden="true"
+            fill="none"
+          />
+          <span class="sr-only">Anterior</span>
         </button>
         <button
           type="button"
           class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
           @click="nextSlide"
         >
-          <span
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-          >
-            <svg
-              class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 9 4-4-4-4"
-              />
-            </svg>
-            <span class="sr-only">Next</span>
-          </span>
+          <i-mingcute-right-fill
+            class="w-10 h-10 text-white dark:text-gray-800 rtl:rotate-180 hover:text-gray-800 dark:hover:text-white"
+            aria-hidden="true"
+            fill="none"
+          />
+          <span class="sr-only">Próximo</span>
         </button>
       </div>
 
       <!-- Descrição -->
-      <div class="p-4">
+      <div class="p-2">
         <p class="text-gray-600 dark:text-gray-400">
           Descrição do card aqui. Lorem ipsum dolor sit amet,
           consecteturadipiscing elit. Sed do eiusmod tempor incididunt ut labore
@@ -116,26 +90,20 @@
 
 <script setup>
   const activeSlide = ref(0);
-
-  const slides = [
-    { image: 'https://picsum.photos/200' },
-    { image: 'https://picsum.photos/300' },
-    { image: 'https://picsum.photos/400' },
-    { image: 'https://picsum.photos/200' },
-    { image: 'https://picsum.photos/200' },
-  ];
+  const props = defineProps(['slides']);
 
   const changeSlide = (index) => {
     activeSlide.value = index;
   };
 
   const nextSlide = () => {
-    activeSlide.value = (activeSlide.value + 1) % slides.length;
+    activeSlide.value = (activeSlide.value + 1) % props.slides.length;
   };
 
   const prevSlide = () => {
-    activeSlide.value = (activeSlide.value - 1 + slides.length) % slides.length;
+    activeSlide.value =
+      (activeSlide.value - 1 + props.slides.length) % props.slides.length;
   };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
