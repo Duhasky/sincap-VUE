@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Permissions\{RoleController, RoleAbilityController, RoleAbilityCreateDelete, RoleControllerCreate, RoleControllerUpdate, RoleUserCreateDelete};
+use App\Http\Controllers\Person\PersonControllerCreate;
 use App\Http\Controllers\Person\PersonControllerManagement;
 use App\Http\Controllers\Profile\{ ProfileControllerDestroy, ProfileControllerEdit, ProfileControllerUpdate };
 use App\Http\Controllers\User\{UserControllerCreate, UserControllerUpdate, UserControllerActive, UserControllerDelete, UserControllerManagement, UserControllerRegister, UserControllerEdit};
@@ -32,6 +33,7 @@ Route::post('/role_user/{user_id}/{role_id}', RoleUserCreateDelete::class)->name
 });
 
 Route::get('/person', PersonControllerManagement::class)->name('person.management');
+Route::get('/person/create', PersonControllerCreate::class)->name('person.create');
 
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 Route::get('/profile', ProfileControllerEdit::class)->name('profile.edit');

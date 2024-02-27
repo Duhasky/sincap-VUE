@@ -19,13 +19,13 @@
         <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
           <!-- Iterar sobre os slides -->
           <div
-            v-for="slide in slides"
-            :key="slide.id"
-            :class="{ hidden: slide.id !== activeSlide }"
+            v-for="s in slide.photos"
+            :key="s.id"
+            :class="{ hidden: s.id !== activeSlide }"
             class="duration-700 ease-in-out"
           >
             <img
-              :src="slide.photo"
+              :src="s.photo"
               class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             />
           </div>
@@ -35,17 +35,17 @@
           class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2"
         >
           <button
-            v-for="slide in slides"
-            :key="slide.id"
+            v-for="s in slide.photos"
+            :key="s.id"
             type="button"
             :class="{
               'w-3 h-3 rounded-full': true,
-              'bg-gray-800': slide.id === activeSlide,
-              'bg-white': slide.id !== activeSlide,
+              'bg-gray-800': s.id === activeSlide,
+              'bg-white': s.id !== activeSlide,
             }"
-            @click="changeSlide(slide.id)"
-            :aria-current="slide.id === activeSlide"
-            :aria-label="`Slide ${slide.id + 1}`"
+            @click="changeSlide(s.id)"
+            :aria-current="s.id === activeSlide"
+            :aria-label="`Slide ${s.id + 1}`"
           />
         </div>
 
@@ -53,7 +53,7 @@
         <button
           type="button"
           class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          @click="prevSlide"
+          @click="prevSlide(slide.photos)"
         >
           <i-mingcute-left-fill
             class="w-10 h-10 text-white dark:text-gray-800 rtl:rotate-180 hover:text-gray-800 dark:hover:text-white"
@@ -65,7 +65,7 @@
         <button
           type="button"
           class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          @click="nextSlide"
+          @click="nextSlide(slide.photos)"
         >
           <i-mingcute-right-fill
             class="w-10 h-10 text-white dark:text-gray-800 rtl:rotate-180 hover:text-gray-800 dark:hover:text-white"
@@ -77,12 +77,10 @@
       </div>
 
       <!-- Descrição -->
-      <div class="p-2">
-        <p class="text-gray-600 dark:text-gray-400">
-          Descrição do card aqui. Lorem ipsum dolor sit amet,
-          consecteturadipiscing elit. Sed do eiusmod tempor incididunt ut labore
-          et dolore magna aliqua.
-        </p>
+      <div
+        class="p-2 text-gray-600 dark:text-gray-400 border-t border-gray-400"
+      >
+        <slot name="footer"></slot>
       </div>
     </div>
   </div>
@@ -90,19 +88,18 @@
 
 <script setup>
   const activeSlide = ref(0);
-  const props = defineProps(['slides']);
+  defineProps(['slide']);
 
   const changeSlide = (index) => {
     activeSlide.value = index;
   };
 
-  const nextSlide = () => {
-    activeSlide.value = (activeSlide.value + 1) % props.slides.length;
+  const nextSlide = (imgs) => {
+    activeSlide.value = (activeSlide.value + 1) % imgs.length;
   };
 
-  const prevSlide = () => {
-    activeSlide.value =
-      (activeSlide.value - 1 + props.slides.length) % props.slides.length;
+  const prevSlide = (imgs) => {
+    activeSlide.value = (activeSlide.value - 1 + imgs.length) % imgs.length;
   };
 </script>
 

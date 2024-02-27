@@ -16,15 +16,6 @@ class UserControllerCreate extends Controller
      */
     public function __invoke(UserCreateUpdateRequest $request)
     {
-        $request->validated();
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'remember_token' => Str::random(10),
-        ]);
-
-        event(new Registered($user));
+        User::create($request->validated());
     }
 }

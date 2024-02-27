@@ -26,7 +26,7 @@ class UserCreateUpdateRequest extends FormRequest
          return [
             'name' => ['required', 'string', 'max:255', 'min:3'],
             'email' => ['required', 'string', 'lowercase', 'email', 'min:5' , 'max:255', Rule::unique(User::class)->ignore($this->id)],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::min(4)],
         ];
     }
 }

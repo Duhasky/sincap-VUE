@@ -122,8 +122,8 @@
 
   <!-- Content -->
   <div class="flex flex-row items-center pb-4">
+    <!-- Form de pesquisa -->
     <div class="w-full lg:w-3/5">
-      <!-- Form de pesquisa -->
       <form class="flex items-center">
         <div class="relative w-full">
           <label
@@ -139,10 +139,10 @@
             autocomplete="current-name"
             placeholder="Pesquisar por nome"
           />
-          <!-- Form de pesquisa -->
         </div>
       </form>
     </div>
+    <!-- Form de pesquisa -->
     <div v-if="auth.abilities.includes('user_create')">
       <PrimaryButton
         @click.prevent="newUserModalShow"
