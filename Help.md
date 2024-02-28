@@ -13,3 +13,6 @@ ACL
   - table abilities
 
 @builtin php (extençao) desativada
+
+não esquecer de gerar o link simbolico - php artisan storage:link
+modificar o .env FILESYSTEM_DISK=public

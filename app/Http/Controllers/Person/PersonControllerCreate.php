@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Person;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Group;
 use App\Models\Person;
 use Illuminate\Http\Request;
@@ -15,6 +16,6 @@ class PersonControllerCreate extends Controller
      */
     public function __invoke()
     {
-        return Inertia::render('Person/PersonCreate', ['groups' => Group::all()]);
+        return Inertia::render('Person/PersonCreate', ['groups' => Group::all(), 'cities' => City::all()]);
     }
 }

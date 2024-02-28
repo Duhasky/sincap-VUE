@@ -74,19 +74,14 @@
       </div>
       <div class="mt-4">
         <InputLabel
-          for="address"
-          value="Endereço"
+          for="city"
+          value="Cidade"
         />
-        <textarea
-          id="address"
-          rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="form.address"
-          placeholder="Endereço"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.address"
+        <Select
+          id="city"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          v-model="form.city_id"
+          :dataset="cities"
         />
       </div>
       <div class="mt-4">
@@ -99,7 +94,7 @@
           rows="4"
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           v-model="form.description"
-          placeholder="Endereço"
+          placeholder="Descrição"
         />
         <InputError
           class="mt-2"
@@ -112,40 +107,29 @@
           for="group"
           value="Facção"
         />
-        <select
+        <Select
           id="group"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           v-model="form.group_id"
-        >
-          <option
-            selected
-            :value="0"
-          >
-            Selecione a Facção
-          </option>
-          <template v-for="group in groups">
-            <option
-              :value="group.id"
-              v-text="group.name"
-            />
-          </template>
-        </select>
+          :dataset="groups"
+        />
       </div>
       <div class="mt-4">
         <InputLabel
           for="photos"
           value="Fotos"
         />
-        <TextInput
+        <InputFile
           id="photos"
-          type="file"
-          class="mt-1 block w-full"
-          v-model="form.photos"
+          @input="form.photos = $event.target.files"
         />
-        <InputError
-          class="mt-2"
-          :message="form.errors.photos"
-        />
+        <progress
+          v-if="form.progress"
+          :value="form.progress.percentage"
+          max="100"
+        >
+          {{ form.progress.percentage }}%
+        </progress>
       </div>
 
       <div class="flex items-center justify-end mt-4">
@@ -155,6 +139,7 @@
           class="mx-2"
           :class="{ 'opacity-25': form.processing }"
           v-html="'Salvar'"
+          @click.prevent="save"
         />
       </div>
     </form>
@@ -163,20 +148,22 @@
 
 <script setup>
   import Layout from '@/Layouts/AuthenticatedLayout.vue';
-  import { useForm } from '@inertiajs/vue3';
   defineOptions({ layout: Layout });
+  const props = defineProps({
+    groups: Object,
+    cities: Object,
+  });
   const form = useForm({
     name: '',
     surname: '',
     date_birth: '',
     name_mother: '',
-    address: '',
     description: '',
     group_id: 0,
-    photos: '',
+    city_id: 0,
+    photos: [],
   });
-
-  const props = defineProps({
-    groups: Object,
-  });
+  const save = () => {
+    form.post(route('person.store'));
+  };
 </script>

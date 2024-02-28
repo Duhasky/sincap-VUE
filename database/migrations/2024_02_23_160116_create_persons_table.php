@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\City;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,9 +18,9 @@ return new class extends Migration
             $table->string('surname', 70);
             $table->date('date_birth');
             $table->string('name_mother', 255);
-            $table->string('address', 255);
             $table->string('description', 255);
             $table->foreignId('group_id')->constrained(table: 'groups')->nullable();
+            $table->foreignIdFor(City::class)->constrained()->nullable();
             $table->timestamps();
         });
     }

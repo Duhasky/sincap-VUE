@@ -9,7 +9,7 @@ class Person extends Model
 {
     use HasFactory;
     protected $table = 'persons';
-    protected $fillable = ['name', 'surname', 'date_birth', 'name_mother', 'address', 'description', 'group_id'];
+    protected $fillable = ['name', 'surname', 'date_birth', 'name_mother', 'city_id', 'description', 'group_id'];
 
     public function photos()
     {
@@ -19,5 +19,10 @@ class Person extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+    
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

@@ -21,7 +21,7 @@ class PersonFactory extends Factory
             'surname' => fake()->name(),
             'date_birth' => fake()->dateTimeBetween(),
             'name_mother' => fake()->name(),
-            'address' => fake()->text(200),
+            'city_id' => rand(1,184),
             'description' => fake()->text(255),
             'group_id' => rand(1,3),
         ];
