@@ -22,7 +22,8 @@ class PersonPhotoStoreUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => [ 'image','max:1024*5' ]
+            'photo' => [ 'image','max:1024*5' ],
+            'person_id' => ['exists:persons,id','integer'],
         ];
     }
 }

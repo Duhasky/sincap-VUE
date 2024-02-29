@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         
         $role->abilities()->create([ 'name' => 'role_admin' ]);
 
+        \App\Models\Group::create(['name' => 'SEM FAC']);
         \App\Models\Group::create(['name' => 'CV']);
         \App\Models\Group::create(['name' => 'GDE']);
         \App\Models\Group::create(['name' => 'PCC']);
@@ -223,11 +224,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\City::create(['name' => "Várzea Alegre"]);
         \App\Models\City::create(['name' => "Viçosa do Ceará"]);
 
-        \App\Models\User::factory(100)->create();
+        \App\Models\User::factory(10)->create();
         
         
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 10; $i++) {
           $person = \App\Models\Person::factory()->create();
 
           // Crie 3 fotos para cada pessoa com diferentes tamanhos

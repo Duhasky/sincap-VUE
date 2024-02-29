@@ -5,17 +5,18 @@
     v-model="model"
   >
     <option
+      disabled
       selected
       :value="0"
     >
       Selecione...
     </option>
-    <template v-for="data in dataset">
-      <option
-        :value="data.id"
-        v-text="data.name"
-      />
-    </template>
+    <option
+      v-for="data in dataset"
+      :key="data.id"
+      :value="data.id"
+      v-text="data.name"
+    />
   </select>
 </template>
 
