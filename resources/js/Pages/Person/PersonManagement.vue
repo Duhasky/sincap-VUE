@@ -30,11 +30,16 @@
     </div>
   </div>
   <!-- Form de pesquisa -->
+
   <div class="flex flex-row flex-wrap gap-2">
     <template v-for="person in persons.data">
       <div>
         <Caroussel :slide="person">
           <template #surname> {{ person.surname }}</template>
+          <template #buttons>
+            <i-mdi-eye-outline class="text-2xl text-yellow-300" />
+            <i-ic-outline-delete class="text-2xl text-red-600" />
+          </template>
           <template #name> {{ person.name }}</template>
           <template #footer>
             <div>

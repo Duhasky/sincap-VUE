@@ -5,9 +5,14 @@
     >
       <!-- Cabeçalho -->
       <div class="bg-gray-200 dark:bg-gray-600 p-4">
-        <h2 class="text-xl font-bold text-gray-800 dark:text-white">
-          <slot name="surname"></slot>
-        </h2>
+        <div>
+          <h2 class="text-xl font-bold text-gray-800 dark:text-white">
+            <slot name="surname" />
+          </h2>
+          <h1 class="float-end justify-start mt-[-30px]">
+            <slot name="buttons" />
+          </h1>
+        </div>
         <div class="font-normal text-gray-300">
           <slot name="name"></slot>
         </div>
