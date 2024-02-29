@@ -34,7 +34,7 @@
   <div class="flex flex-row flex-wrap gap-2">
     <template v-for="person in persons.data">
       <div>
-        <Caroussel :slide="person">
+        <Caroussel :pictures="person.photos">
           <template #surname> {{ person.surname }}</template>
           <template #buttons>
             <i-mdi-eye-outline class="text-2xl text-yellow-300" />
