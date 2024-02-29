@@ -29,6 +29,8 @@ class PersonStoreUpdateRequest extends FormRequest
             'city_id' => ['exists:cities,id','integer','required','min:1'],
             'description' => ['required', 'string', 'max:255', 'min:10'],
             'group_id' => ['exists:groups,id','integer'],
+            'photos' => ['required'],
+            'photos.*' => ['image','max:5120'],
         ];
     }
 }

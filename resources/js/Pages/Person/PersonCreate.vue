@@ -69,7 +69,7 @@
         />
         <InputError
           class="mt-2"
-          :message="form.errors.name_mother"
+          :message="form.errors.date_birth"
         />
       </div>
       <div class="mt-4">
@@ -122,6 +122,10 @@
         <InputFile
           id="photos"
           @input="form.photos = $event.target.files"
+        />
+        <InputError
+          class="mt-2"
+          :message="form.errors.photos"
         />
         <progress
           v-if="form.progress"
