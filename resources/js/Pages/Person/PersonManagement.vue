@@ -1,4 +1,26 @@
 <template>
+  <Modal :show="personDeleteModal">
+    <div class="p-6">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        Tem certeza de que deseja excluir esta Pessoa? <br />
+        ({{ personNameBeingAction }})
+      </h2>
+      <div class="mt-6 flex justify-end">
+        <form @submit.prevent="deletePerson(personBeingAction)">
+          <SecondaryButton
+            class="mx-2"
+            @click.prevent="modalOpenClose"
+            v-html="'Cancelar'"
+          />
+          <DangerButton
+            type="submit"
+            :class="{ 'opacity-25': form.processing }"
+            v-html="'Deletar'"
+          />
+        </form>
+      </div>
+    </div>
+  </Modal>
   <div class="flex flex-row items-center pb-4">
     <!-- Form de pesquisa -->
     <div class="w-full lg:w-3/5">
@@ -37,8 +59,14 @@
         <Caroussel :pictures="person.photos">
           <template #surname> {{ person.surname }}</template>
           <template #buttons>
-            <i-mdi-eye-outline class="text-2xl text-yellow-300" />
-            <i-ic-outline-delete class="text-2xl text-red-600" />
+            <Link :href="route('person.view', person.id)">
+              <i-mdi-eye-outline class="text-2xl text-yellow-300" />
+            </Link>
+            <button
+              @click.prevent="confirmUserDeletion(person, person.surname)"
+            >
+              <i-ic-outline-delete class="text-2xl text-red-600" />
+            </button>
           </template>
           <template #name> {{ person.name }}</template>
           <template #footer>
@@ -94,7 +122,7 @@
   defineOptions({ layout: Layout });
 
   const auth = usePage().props.auth;
-
+  const form = useForm({});
   const props = defineProps({
     filters: Object,
     persons: Object,
@@ -120,6 +148,26 @@
   const newPerson = () => {
     router.get(route('person.create'));
   };
-</script>
 
-<style lang="scss" scoped></style>
+  const modalOpenClose = () => {
+    personDeleteModal.value = !personDeleteModal.value;
+  };
+  const deletePerson = (id) => {
+    form.delete(route('person.delete', id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        modalOpenClose();
+      },
+    });
+  };
+
+  const personDeleteModal = ref(false);
+  const personBeingAction = ref(null);
+  const personNameBeingAction = ref(null);
+
+  const confirmUserDeletion = (id, name) => {
+    modalOpenClose();
+    personBeingAction.value = id;
+    personNameBeingAction.value = name;
+  };
+</script>

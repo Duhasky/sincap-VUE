@@ -2,14 +2,10 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Permissions\{RoleController, RoleAbilityController, RoleAbilityCreateDelete, RoleControllerCreate, RoleControllerUpdate, RoleUserCreateDelete};
-use App\Http\Controllers\Person\PersonControllerCreate;
-use App\Http\Controllers\Person\PersonControllerManagement;
-use App\Http\Controllers\Person\PersonControllerStore;
-use App\Http\Controllers\Person\PersonControllerView;
+use App\Http\Controllers\Person\{PersonControllerCreate, PersonControllerDelete, PersonControllerManagement,PersonControllerStore,PersonControllerView};
 use App\Http\Controllers\Profile\{ ProfileControllerDestroy, ProfileControllerEdit, ProfileControllerUpdate };
-use App\Http\Controllers\User\{UserControllerCreate, UserControllerUpdate, UserControllerActive, UserControllerDelete, UserControllerManagement, UserControllerRegister, UserControllerEdit};
+use App\Http\Controllers\User\{UserControllerCreate, UserControllerUpdate, UserControllerActive, UserControllerDelete, UserControllerManagement, UserControllerEdit};
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -38,6 +34,7 @@ Route::get('/person', PersonControllerManagement::class)->name('person.managemen
 Route::get('/person/create', PersonControllerCreate::class)->name('person.create');
 Route::post('/person/store', PersonControllerStore::class)->name('person.store');
 Route::get('/person/{id}', PersonControllerView::class)->name('person.view');
+Route::delete('/person/{id}', PersonControllerDelete::class)->name('person.delete');
 
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 Route::get('/profile', ProfileControllerEdit::class)->name('profile.edit');

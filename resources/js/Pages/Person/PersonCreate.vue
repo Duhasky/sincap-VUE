@@ -144,7 +144,10 @@
     </div>
 
     <div class="flex items-center justify-end mt-4">
-      <DangerButton v-html="'Cancelar'" />
+      <DangerButton
+        @click.prevent="cancelNew"
+        v-text="'Voltar'"
+      />
       <PrimaryButton
         type="submit"
         class="mx-2"
@@ -181,5 +184,8 @@
         form.reset();
       },
     });
+  };
+  const cancelNew = () => {
+    router.get(route('person.management'));
   };
 </script>

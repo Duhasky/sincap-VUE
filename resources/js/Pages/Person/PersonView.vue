@@ -4,7 +4,12 @@
 </template>
 
 <script setup>
-  defineProps({
+  import Layout from '@/Layouts/AuthenticatedLayout.vue';
+  defineOptions({ layout: Layout });
+
+  const auth = usePage().props.auth;
+  const form = useForm({});
+  const props = defineProps({
     person: Object,
   });
 </script>
