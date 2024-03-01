@@ -19,7 +19,9 @@ class PersonControllerStore extends Controller
         $person = Person::create($request->validated());
             foreach ($request->photos as $photo) {
                 $customName = str_replace(' ', '_', $person->surname)  . '_' . uniqid(). '.'.$photo->getClientOriginalExtension();
-                $person->photos()->create(['photo' => $photo->storeAs('persons', $customName)]);
+                $photo->storeAs('persons', $customName);
+                $customName = 'storage/persons/'  . $customName;
+                $person->photos()->create(['photo' => $customName]);
             }
         }
     }
