@@ -14,6 +14,6 @@ class PersonControllerView extends Controller
      */
     public function __invoke($id)
     {
-        return Inertia::render('Person/PersonView', ['person' => Person::find($id)]);
+        return Inertia::render('Person/PersonView', ['person' => Person::with('photos','group')->find($id)]);
     }
 }
