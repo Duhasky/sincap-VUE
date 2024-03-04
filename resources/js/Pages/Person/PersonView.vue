@@ -1,45 +1,59 @@
 <template>
   <div
-    class="flex flex-row flex-wrap gap-6 w-full h-[60vh] overflow-y-auto overflow-x-auto rounded-md border dark:border-gray-700"
+    class="overflow-y-auto h-[60vh] border border-double dark:border-gray-300 rounded-md"
   >
-    <template
-      v-for="img in person.photos"
-      :key="img.id"
-    >
-      <div @click="openModal(img)">
+    <template v-for="img in person.photos">
+      <a @click.prevent="confirmDownload(img.photo)">
         <img
-          class="w-full h-full border dark:border-gray-600 m-1 object-contain max-w-xl rounded-lg shadow-xl dark:shadow-gray-800 cursor-pointer"
-          :src="'../' + img.photo"
-          alt="Imagem"
+          class="h-full w-full md:w-auto cursor-pointer"
+          :src="`../${img.photo}`"
+          alt="image description"
         />
-      </div>
+      </a>
     </template>
+  </div>
 
-    <!-- Modal -->
-    <div
-      v-if="modalOpen"
-      class="fixed inset-0 z-50 flex items-center justify-center"
-    >
-      <div class="max-w-screen-lg w-full mx-auto bg-white p-4 rounded-lg">
-        <button
-          @click="closeModal"
-          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-        >
-          Fechar
-        </button>
-        <Galery
-          :src="'../' + selectedImage"
-          alt="Imagem em tela cheia"
-          class="w-full h-full object-contain"
-        />
-      </div>
-    </div>
+  <div class="mt-3">
+    <span class="flex">
+      <h1
+        class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        v-text="person.surname"
+      />
+      <SecondaryButton
+        class="ml-12"
+        v-text="'Editar'"
+        @click.prevent="form.get(route('person.edit', person.id))"
+      />
+      <DangerButton
+        @click.prevent="deletePerson(person)"
+        class="ml-1"
+        v-text="'Deletar'"
+      />
+    </span>
+    <h2
+      class="mb-2 font-normal text-gray-900 dark:text-gray-200"
+      v-text="person.name"
+    />
+    <p class="font-normal text-gray-700 dark:text-gray-400">
+      Mãe: {{ person.name_mother }}
+    </p>
+    <p class="font-normal text-gray-700 dark:text-gray-400">
+      Data de Nascimento: {{ person.date_birth }}
+    </p>
+    <p class="font-normal text-gray-700 dark:text-gray-400">
+      Cidade: {{ person.city.name }}
+    </p>
+    <p class="font-normal text-gray-700 dark:text-gray-400">
+      Grupo: {{ person.group.name }}
+    </p>
+    <p class="font-normal text-gray-700 dark:text-gray-400">
+      Descrição: {{ person.description }}
+    </p>
   </div>
 </template>
 
 <script setup>
   import Layout from '@/Layouts/AuthenticatedLayout.vue';
-  import { ref } from 'vue';
   defineOptions({ layout: Layout });
 
   const auth = usePage().props.auth;
@@ -48,15 +62,24 @@
     person: Object,
   });
 
-  const modalOpen = ref(false);
-  const selectedImage = ref('');
+  const confirmDownload = (photoPath) => {
+    const isConfirmed = window.confirm('Deseja fazer o download desta imagem?');
 
-  const openModal = (img) => {
-    selectedImage.value = img.photo;
-    modalOpen.value = true;
+    if (isConfirmed) {
+      // Lógica para iniciar o download
+      initiateDownload(photoPath);
+    }
   };
 
-  const closeModal = () => {
-    modalOpen.value = false;
+  const initiateDownload = (photoPath) => {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = `../${photoPath}`;
+    downloadLink.download = '';
+    downloadLink.click();
+  };
+
+  const deletePerson = (person) => {
+    form.delete(route('person.delete', person));
+    form.get(route('person.management'));
   };
 </script>
