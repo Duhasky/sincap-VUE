@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
                 'abilities' => $user ? $user->roles->flatMap->abilities->pluck('name') : [],
             ],
+            'path_file' => asset('')
         ];
     }
 

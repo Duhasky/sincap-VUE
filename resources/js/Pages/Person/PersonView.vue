@@ -2,13 +2,15 @@
   <div
     class="overflow-y-auto h-[60vh] border border-double dark:border-gray-300 rounded-md"
   >
+    {{ console.log(path) }}
     <template v-for="img in person.photos">
       <a @click.prevent="confirmDownload(img.photo)">
         <img
           class="h-full w-full md:w-auto cursor-pointer"
-          :src="`../${img.photo}`"
+          :src="path + img.photo"
           alt="image description"
         />
+        {{ console.log(path + img.photo) }}
       </a>
     </template>
   </div>
@@ -57,6 +59,7 @@
   defineOptions({ layout: Layout });
 
   const auth = usePage().props.auth;
+  const path = usePage().props.path_file;
   const form = useForm({});
   const props = defineProps({
     person: Object,
