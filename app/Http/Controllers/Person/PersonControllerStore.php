@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Person;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PersonPhotoStoreUpdateRequest;
 use App\Http\Requests\PersonStoreUpdateRequest;
 use App\Models\Person;
-use Illuminate\Support\Facades\Validator;
 
 class PersonControllerStore extends Controller
 {

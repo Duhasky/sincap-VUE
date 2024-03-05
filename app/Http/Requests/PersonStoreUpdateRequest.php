@@ -30,7 +30,7 @@ class PersonStoreUpdateRequest extends FormRequest
             'description' => ['required', 'string', 'max:255', 'min:10'],
             'group_id' => ['required','exists:groups,id','integer'],
             'photos' => ['required'],
-            'photos.*' => ['image','max:5120'],
+            'photos.*' => ['image','max:20480'],
         ];
     }
 }
