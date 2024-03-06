@@ -18,7 +18,17 @@
     <!-- Imagem -->
     <div
       class="relative w-auto"
-      v-if="pictures.length <= 1"
+      v-if="pictures.length == 0"
+    >
+      <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+        <i-carbon:no-image
+          class="block absolute h-56 md:h-96 top-1/2 left-1/2 w-auto -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
+    </div>
+    <div
+      class="relative w-auto"
+      v-else-if="pictures.length <= 1"
     >
       <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
         <img

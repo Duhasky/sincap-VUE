@@ -122,30 +122,33 @@
     </div>
 
     <div class="mt-4">
-      <InputLabel
-        for="photos"
-        value="Fotos"
-      />
-      <InputFile
-        id="photos"
-        @input="form.photos = $event.target.files"
-      />
-      <InputError
-        class="mt-2"
-        :message="form.errors.photos"
-      />
-      <progress
-        v-if="form.progress"
-        :value="form.progress.percentage"
-        max="100"
-      >
-        {{ form.progress.percentage }}%
-      </progress>
+      <div>
+        <InputLabel
+          for="new_photos"
+          value="Novas Fotos"
+        />
+        <InputFile
+          id="new_photos"
+          @input="form.new_photos = $event.target.files"
+        />
+        <InputError
+          class="mt-2"
+          :message="form.errors.new_photos"
+        />
+        <progress
+          v-if="form.progress"
+          :value="form.progress.percentage"
+          max="100"
+        >
+          {{ form.progress.percentage }}%
+        </progress>
+      </div>
     </div>
 
     <div class="flex items-center justify-end mt-4">
-      <DangerButton
-        @click.prevent="cancelUpdate"
+      <Link
+        class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150"
+        :href="route('person.view', person.id)"
         v-text="'Voltar'"
       />
       <PrimaryButton
@@ -153,13 +156,52 @@
         class="mx-2"
         :class="{ 'opacity-25': form.processing }"
         v-html="'Salvar'"
-        @click.prevent="updatePerson"
+        @click.prevent="updatePerson(person)"
       />
     </div>
   </form>
-  <template v-for="img in person.photos">
-    <Galery :img="img.photo" />
-  </template>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+    <template v-for="img in person.photos">
+      <div>
+        <div class="flex items-center justify-center">
+          <button
+            class="flex text-xl text-red-600 mb-1"
+            @click.prevent="confirmPhotoDeletion(img.id)"
+            v-if="person.photos.length > 1"
+          >
+            <i-ic-outline-delete />Deletar
+          </button>
+        </div>
+        <a @click.prevent="confirmDownload(img.photo)">
+          <img
+            :src="path + img.photo"
+            class="cursor-pointer"
+          />
+        </a>
+      </div>
+    </template>
+  </div>
+  <Modal :show="photoDeleteModal">
+    <div class="p-6">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        Tem certeza de que deseja excluir esta Foto?
+      </h2>
+      <div class="mt-6 flex justify-end">
+        <form @submit.prevent="deletePhoto(photoId)">
+          <SecondaryButton
+            class="mx-2"
+            @click.prevent="modalOpenClose"
+            v-html="'Cancelar'"
+          />
+          <DangerButton
+            type="submit"
+            :class="{ 'opacity-25': form.processing }"
+            v-html="'Deletar'"
+          />
+        </form>
+      </div>
+    </div>
+  </Modal>
 </template>
 
 <script setup>
@@ -171,7 +213,6 @@
     groups: Object,
     cities: Object,
   });
-
   const auth = usePage().props.auth;
   const path = usePage().props.path_file;
   const form = useForm({
@@ -183,17 +224,50 @@
     group_id: props.person.group_id,
     city_id: props.person.city_id,
     photos: props.person.photos,
+    new_photos: [],
   });
-  const updatePerson = () => {
-    form.post(route('person.update'), {
+  const updatePerson = (person) => {
+    form.post(route('person.update', person), {
       onSuccess: () => {
-        form.reset();
+        form.get('person.edit', person.id);
       },
     });
   };
-  const cancelUpdate = () => {
-    router.back;
+
+  const confirmDownload = (photoPath) => {
+    const isConfirmed = window.confirm('Deseja fazer o download desta imagem?');
+
+    if (isConfirmed) {
+      // Lógica para iniciar o download
+      initiateDownload(photoPath);
+    }
+  };
+  const initiateDownload = (photoPath) => {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = path + photoPath;
+    downloadLink.download = '';
+    downloadLink.click();
+  };
+
+  const photoDeleteModal = ref(false);
+
+  const modalOpenClose = () => {
+    photoDeleteModal.value = !photoDeleteModal.value;
+  };
+
+  const photoId = ref(null);
+
+  const confirmPhotoDeletion = (id) => {
+    modalOpenClose();
+    photoId.value = id;
+  };
+
+  const deletePhoto = (id) => {
+    form.delete(route('photo.delete', id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        modalOpenClose();
+      },
+    });
   };
 </script>
-
-<style lang="scss" scoped></style>
