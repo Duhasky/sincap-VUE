@@ -157,6 +157,9 @@
       />
     </div>
   </form>
+  <template v-for="img in person.photos">
+    <Galery :img="img.photo" />
+  </template>
 </template>
 
 <script setup>

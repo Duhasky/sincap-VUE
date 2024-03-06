@@ -2,7 +2,6 @@
   <div
     class="overflow-y-auto h-[60vh] border border-double dark:border-gray-300 rounded-md"
   >
-    {{ console.log(path) }}
     <template v-for="img in person.photos">
       <a @click.prevent="confirmDownload(img.photo)">
         <img
@@ -10,7 +9,6 @@
           :src="path + img.photo"
           alt="image description"
         />
-        {{ console.log(path + img.photo) }}
       </a>
     </template>
   </div>

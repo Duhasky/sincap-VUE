@@ -3,7 +3,7 @@
     <div>
       <img
         class="h-auto max-w-full rounded-lg"
-        :src="img"
+        :src="path + img"
         :alt="alt"
       />
     </div>
@@ -11,5 +11,6 @@
 </template>
 
 <script setup>
+  const path = usePage().props.path_file;
   defineProps(['img', 'alt']);
 </script>

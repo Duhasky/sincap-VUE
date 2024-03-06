@@ -15,7 +15,7 @@ class PersonControllerEdit extends Controller
      */
     public function __invoke($id)
     {
-        $person = Person::find($id);
+        $person = Person::with('photos','group')->find($id);
         return Inertia::render('Person/PersonUpdate', ['person' => $person, 'groups' => Group::all(), 'cities' => City::all()]);
     }
 }
