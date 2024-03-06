@@ -173,6 +173,7 @@
   });
 
   const auth = usePage().props.auth;
+  const path = usePage().props.path_file;
   const form = useForm({
     name: props.person.name,
     surname: props.person.surname,

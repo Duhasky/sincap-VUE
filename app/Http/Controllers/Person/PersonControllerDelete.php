@@ -22,7 +22,7 @@ class PersonControllerDelete extends Controller
                     Log::error('Erro ao deletar o arquivo ' . $relativePath . ': ' . $e->getMessage());
                 }
             }
-            Person::destroy($request->id);
         }
+        Person::destroy($request->id);
     }
 }
