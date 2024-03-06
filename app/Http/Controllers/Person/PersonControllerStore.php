@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Person;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonStoreUpdateRequest;
 use App\Models\Person;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class PersonControllerStore extends Controller
 {
@@ -13,14 +15,23 @@ class PersonControllerStore extends Controller
      */
     public function __invoke(PersonStoreUpdateRequest $request)
     {
-        if ($request->validated()) {
         $person = Person::create($request->validated());
-            foreach ($request->photos as $photo) {
-                $customName = str_replace(' ', '_', $person->surname)  . '_' . uniqid(). '.'.$photo->getClientOriginalExtension();
-                $photo->storeAs('persons', $customName);
-                $customName = 'storage/persons/'  . $customName;
-                $person->photos()->create(['photo' => $customName]);
-            }
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+
+        foreach ($request->photos as $photo) {
+            // read image from file system
+            $image = $manager->read($photo);
+
+            // resize image proportionally to 300px width
+            $image->scale(height: 1240);
+            
+            $customName = str_replace(' ', '_', $person->surname)  . '_' . uniqid(). '.'.$photo->getClientOriginalExtension();
+            $customName = 'storage/persons/'  . $customName;
+            
+            $image->save(public_path($customName));
+            
+            $person->photos()->create(['photo' => $customName]);
         }
     }
 }
