@@ -35,7 +35,7 @@ Route::get('/person', PersonControllerManagement::class)->name('person.managemen
 Route::get('/person/create', PersonControllerCreate::class)->name('person.create');
 Route::post('/person/store', PersonControllerStore::class)->name('person.store');
 Route::get('/person/{id}', PersonControllerView::class)->name('person.view');
-Route::put('/person/{id}', PersonControllerUpdate::class)->name('person.update');
+Route::post('/person-update', PersonControllerUpdate::class)->name('person.update');
 Route::get('/person-edit/{id}', PersonControllerEdit::class)->name('person.edit');
 Route::delete('/person/{id}', PersonControllerDelete::class)->name('person.delete');
 

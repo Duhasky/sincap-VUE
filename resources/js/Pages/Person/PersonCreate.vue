@@ -129,6 +129,7 @@
       <InputFile
         id="photos"
         @input="form.photos = $event.target.files"
+        required
       />
       <InputError
         class="mt-2"

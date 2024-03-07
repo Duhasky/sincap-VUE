@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Person;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PersonStoreUpdateRequest;
+use App\Http\Requests\PersonUpdateRequest;
 use App\Models\Person;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -13,10 +13,12 @@ class PersonControllerUpdate extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(PersonStoreUpdateRequest $request)
+    public function __invoke(PersonUpdateRequest $request)
     {
-        $person = Person::findOrFail($request->id)->update($request->validated());
-        
+        // dd($request);
+        $person = Person::findOrFail($request->id);
+        $person->update($request->validated());
+
         if($request->new_photos){
             $manager = new ImageManager(new Driver());
 
@@ -26,12 +28,12 @@ class PersonControllerUpdate extends Controller
 
                 // resize image proportionally to 1240px height
                 $image->scale(height: 1240);
-                
+
                 $customName = str_replace(' ', '_', $person->surname)  . '_' . uniqid(). '.'.$photo->getClientOriginalExtension();
                 $customName = 'storage/persons/'  . $customName;
-                
+
                 $image->save(public_path($customName));
-                
+
                 $person->photos()->create(['photo' => $customName]);
             }
         }

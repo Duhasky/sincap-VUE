@@ -4,7 +4,7 @@
     v-text="`Atualizar cadastro: ${person.name}`"
   />
 
-  <form>
+  <form @submit.prevent="updatePerson">
     <div>
       <InputLabel
         for="name"
@@ -156,11 +156,10 @@
         class="mx-2"
         :class="{ 'opacity-25': form.processing }"
         v-html="'Salvar'"
-        @click.prevent="updatePerson(person)"
       />
     </div>
   </form>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mt-2">
     <template v-for="img in person.photos">
       <div>
         <div class="flex items-center justify-center">
@@ -213,23 +212,27 @@
     groups: Object,
     cities: Object,
   });
+
+  const person = props.person;
   const auth = usePage().props.auth;
   const path = usePage().props.path_file;
   const form = useForm({
-    name: props.person.name,
-    surname: props.person.surname,
-    date_birth: props.person.date_birth,
-    name_mother: props.person.name_mother,
-    description: props.person.description,
-    group_id: props.person.group_id,
-    city_id: props.person.city_id,
-    photos: props.person.photos,
+    id: person.id,
+    name: person.name,
+    surname: person.surname,
+    date_birth: person.date_birth,
+    name_mother: person.name_mother,
+    description: person.description,
+    group_id: person.group_id,
+    city_id: person.city_id,
+    photos: person.photos,
     new_photos: [],
   });
-  const updatePerson = (person) => {
-    form.post(route('person.update', person), {
+  const updatePerson = () => {
+    form.post(route('person.update'), {
+      preserveScroll: true,
       onSuccess: () => {
-        form.get('person.edit', person.id);
+        router.get(route('person.edit', person.id));
       },
     });
   };
@@ -264,9 +267,9 @@
 
   const deletePhoto = (id) => {
     form.delete(route('photo.delete', id), {
-      preserveScroll: true,
       onSuccess: () => {
         modalOpenClose();
+        router.get(route('person.edit', person.id));
       },
     });
   };

@@ -19,16 +19,21 @@
         class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
         v-text="person.surname"
       />
-      <SecondaryButton
-        class="ml-12"
-        v-text="'Editar'"
-        @click.prevent="form.get(route('person.edit', person.id))"
-      />
-      <DangerButton
-        @click.prevent="deletePerson(person)"
-        class="ml-1"
-        v-text="'Deletar'"
-      />
+      <div class="ml-6 flex gap-x-1">
+        <Link
+          class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150"
+          :href="route('person.management')"
+          v-text="'Voltar'"
+        />
+        <PrimaryButton
+          v-text="'Editar'"
+          @click.prevent="form.get(route('person.edit', person.id))"
+        />
+        <DangerButton
+          @click.prevent="deletePerson(person)"
+          v-text="'Deletar'"
+        />
+      </div>
     </span>
     <h2
       class="mb-2 font-normal text-gray-900 dark:text-gray-200"
