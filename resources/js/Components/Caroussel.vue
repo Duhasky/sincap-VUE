@@ -1,5 +1,5 @@
 <template>
-  <div class="w-auto bg-white dark:bg-gray-700 rounded-lg">
+  <div class="w-auto md:w-auto bg-white dark:bg-gray-700 rounded-lg">
     <!-- Cabeçalho -->
     <div class="bg-gray-200 dark:bg-gray-600 p-4 rounded-lg">
       <div>

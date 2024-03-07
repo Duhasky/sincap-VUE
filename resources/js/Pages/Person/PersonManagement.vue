@@ -55,7 +55,7 @@
 
   <div class="flex flex-row flex-wrap gap-2">
     <template v-for="person in persons.data">
-      <div>
+      <div class="w-full sm:w-auto">
         <Caroussel :pictures="person.photos">
           <template #surname> {{ person.surname }}</template>
           <template #buttons>

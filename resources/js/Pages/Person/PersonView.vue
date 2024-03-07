@@ -3,13 +3,11 @@
     class="overflow-y-auto h-[60vh] border border-double dark:border-gray-300 rounded-md"
   >
     <template v-for="img in person.photos">
-      <a @click.prevent="confirmDownload(img.photo)">
-        <img
-          class="h-full w-full md:w-auto cursor-pointer"
-          :src="path + img.photo"
-          alt="image description"
-        />
-      </a>
+      <img
+        class="h-full w-full md:w-auto cursor-pointer"
+        :src="path + img.photo"
+        alt="image description"
+      />
     </template>
   </div>
 
@@ -67,22 +65,6 @@
   const props = defineProps({
     person: Object,
   });
-
-  const confirmDownload = (photoPath) => {
-    const isConfirmed = window.confirm('Deseja fazer o download desta imagem?');
-
-    if (isConfirmed) {
-      // Lógica para iniciar o download
-      initiateDownload(photoPath);
-    }
-  };
-
-  const initiateDownload = (photoPath) => {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = `../${photoPath}`;
-    downloadLink.download = '';
-    downloadLink.click();
-  };
 
   const deletePerson = (person) => {
     form.delete(route('person.delete', person));

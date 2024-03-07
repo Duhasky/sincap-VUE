@@ -162,21 +162,11 @@
   <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mt-2">
     <template v-for="img in person.photos">
       <div>
-        <div class="flex items-center justify-center">
-          <button
-            class="flex text-xl text-red-600 mb-1"
-            @click.prevent="confirmPhotoDeletion(img.id)"
-            v-if="person.photos.length > 1"
-          >
-            <i-ic-outline-delete />Deletar
-          </button>
-        </div>
-        <a @click.prevent="confirmDownload(img.photo)">
-          <img
-            :src="path + img.photo"
-            class="cursor-pointer"
-          />
-        </a>
+        <img
+          @click.prevent="confirmPhotoDeletion(img.id)"
+          :src="path + img.photo"
+          class="cursor-pointer"
+        />
       </div>
     </template>
   </div>
@@ -235,21 +225,6 @@
         router.get(route('person.edit', person.id));
       },
     });
-  };
-
-  const confirmDownload = (photoPath) => {
-    const isConfirmed = window.confirm('Deseja fazer o download desta imagem?');
-
-    if (isConfirmed) {
-      // Lógica para iniciar o download
-      initiateDownload(photoPath);
-    }
-  };
-  const initiateDownload = (photoPath) => {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = path + photoPath;
-    downloadLink.download = '';
-    downloadLink.click();
   };
 
   const photoDeleteModal = ref(false);
