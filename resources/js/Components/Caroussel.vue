@@ -47,7 +47,7 @@
         <div
           v-for="(picture, index) in pictures"
           :key="index"
-          :class="{ hidden: index === currentPicture }"
+          :class="{ hidden: index !== currentPicture }"
           class="absolute inset-0 -translate-y-0"
         >
           <img
@@ -140,22 +140,9 @@
 
   const currentPicture = ref(0);
   const direction = ref('');
-  const interval = ref();
-
-  const automaticSlide = () => {
-    interval.value = setInterval(function () {
-      nextPicture();
-    }, props.slideInterval);
-  };
-
-  const resetInterval = () => {
-    clearInterval(interval.value);
-    automaticSlide();
-  };
 
   const slideTo = (index) => {
     currentPicture.value = index;
-    resetInterval();
   };
 
   const nextPicture = () => {
@@ -165,7 +152,6 @@
       currentPicture.value = 0;
     }
     direction.value = 'right';
-    resetInterval();
   };
 
   const previousPicture = () => {
@@ -175,14 +161,7 @@
       currentPicture.value = props.pictures.length - 1;
     }
     direction.value = 'left';
-    resetInterval();
   };
-
-  onMounted(() => {
-    if (props.slide) {
-      automaticSlide();
-    }
-  });
 </script>
 
 <style scoped></style>
