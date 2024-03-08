@@ -181,7 +181,7 @@
         class="text-lg font-medium text-gray-900 dark:text-gray-100 pb-4"
         v-text="cityOrGroup"
       />
-      <form @submit.prevent="cityOrGroup">
+      <form @submit.prevent="saveGroupCity">
         <div>
           <InputLabel
             for="name"
@@ -261,6 +261,17 @@
     }
     if (param == 'group') {
       cityOrGroup.value = 'Novo Grupo';
+    }
+  };
+
+  const saveGroupCity = () => {
+    if (cityOrGroup.value == 'Nova Cidade') {
+      //criar cidade
+      form.post(route('city.create'));
+    }
+    if (cityOrGroup.value == 'Novo Grupo') {
+      //criar grupo
+      form.post(route('group.create'));
     }
   };
 </script>
