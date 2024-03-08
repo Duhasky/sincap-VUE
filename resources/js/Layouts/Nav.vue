@@ -72,18 +72,81 @@
             </Link>
           </li>
 
+          <!-- Persons options -->
           <li>
-            <Link
-              :href="route('person.management')"
-              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            <button
+              type="button"
+              class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              @click.prevent="togglePersonDropdown"
             >
               <i-mdi-pirate
-                class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+              />
+              <span
+                class="flex-1 ml-3 text-left whitespace-nowrap"
+                v-text="'Gestão de Pessoas'"
+              />
+              <i-material-symbols-arrow-downward-rounded
                 aria-hidden="true"
+                class="w-6 h-6"
+                :class="{ 'transform rotate-180': showingPersonDropdown }"
                 fill="currentColor"
               />
-              <span class="ml-3">TAN</span>
-            </Link>
+            </button>
+            <ul
+              id="dropdown-pages"
+              v-show="showingPersonDropdown"
+              class="py-2 space-y-2"
+            >
+              <li
+                class="pl-4"
+                v-if="auth.abilities.includes('user_read')"
+              >
+                <Link
+                  :href="route('person.management')"
+                  class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group"
+                >
+                  <i-game-icons:pirate-flag
+                    class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    aria-hidden="true"
+                    fill="currentColor"
+                  />
+                  <span class="ml-3">TAN</span>
+                </Link>
+              </li>
+              <li
+                class="pl-4"
+                v-if="auth.abilities.includes('user_read')"
+              >
+                <Link
+                  :href="route('city.management')"
+                  class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group"
+                >
+                  <i-arcticons:city-transit
+                    class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    aria-hidden="true"
+                    fill="currentColor"
+                  />
+                  <span class="ml-3">Cidades</span>
+                </Link>
+              </li>
+              <li
+                v-if="auth.abilities.includes('role_admin')"
+                class="pl-4"
+              >
+                <Link
+                  :href="route('group.management')"
+                  class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 group"
+                >
+                  <i-fluent-emoji-high-contrast:pirate-flag
+                    class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  />
+                  <span class="ml-3">Facções</span>
+                </Link>
+              </li>
+            </ul>
           </li>
 
           <li>
@@ -202,6 +265,13 @@
 
   const toggleUserDropdown = () => {
     showingUserDropdown.value = !showingUserDropdown.value;
+  };
+
+  //abertura das opções de usuário
+  const showingPersonDropdown = ref(false);
+
+  const togglePersonDropdown = () => {
+    showingPersonDropdown.value = !showingPersonDropdown.value;
   };
 </script>
 <style scoped>

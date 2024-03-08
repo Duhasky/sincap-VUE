@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\City\CityControllerCreate;
+use App\Http\Controllers\City\{CityControllerCreate,CityController, CityControllerUpdate};
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Group\GroupControllerCreate;
-use App\Http\Controllers\Permissions\{RoleController, RoleAbilityController, RoleAbilityCreateDelete, RoleControllerCreate, RoleControllerUpdate, RoleUserCreateDelete};
+use App\Http\Controllers\Group\{GroupControllerCreate,GroupControllerUpdate,GroupController};
+use App\Http\Controllers\Permissions\{ RoleController, RoleAbilityController, RoleAbilityCreateDelete, RoleControllerCreate, RoleControllerUpdate, RoleUserCreateDelete};
 use App\Http\Controllers\Person\{PersonControllerCreate, PersonControllerDelete, PersonControllerEdit, PersonControllerManagement,PersonControllerStore, PersonControllerUpdate, PersonControllerView};
 use App\Http\Controllers\Photo\PersonPhotoControllerDelete;
 use App\Http\Controllers\Profile\{ ProfileControllerDestroy, ProfileControllerEdit, ProfileControllerUpdate };
@@ -41,9 +41,13 @@ Route::post('/person-update', PersonControllerUpdate::class)->name('person.updat
 Route::get('/person-edit/{id}', PersonControllerEdit::class)->name('person.edit');
 Route::delete('/person/{id}', PersonControllerDelete::class)->name('person.delete');
 
+Route::get('/city', CityController::class)->name('city.management');
 Route::post('/city-create', CityControllerCreate::class)->name('city.create');
+Route::put('/city-update', CityControllerUpdate::class)->name('city.update');
 
+Route::get('/group', GroupController::class)->name('group.management');
 Route::post('/group-create', GroupControllerCreate::class)->name('group.create');
+Route::put('/group-update', GroupControllerUpdate::class)->name('group.update');
 
 Route::delete('/person-photo/{id}', PersonPhotoControllerDelete::class)->name('photo.delete');
 

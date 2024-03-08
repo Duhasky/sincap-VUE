@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GroupRequest;
 use App\Models\Group;
 
-class GroupControllerCreate extends Controller
+class GroupControllerUpdate extends Controller
 {
 	/**
 	 * Handle the incoming request.
 	 */
 	public function __invoke(GroupRequest $request)
 	{
-		Group::create($request->validated());
+		Group::findOrFail($request->id)->update($request->validated());
 	}
 }

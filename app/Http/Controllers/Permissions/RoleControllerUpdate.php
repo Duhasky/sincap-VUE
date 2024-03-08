@@ -8,14 +8,11 @@ use App\Models\Role;
 
 class RoleControllerUpdate extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(RoleRequest $request)
-    {
-
-        Role::findOrFail($request->id)->update($request->validated());
-
-        return redirect()->route('role.management');
-    }
+	/**
+	 * Handle the incoming request.
+	 */
+	public function __invoke(RoleRequest $request)
+	{
+		Role::findOrFail($request->id)->update($request->validated());
+	}
 }

@@ -5,18 +5,18 @@
     class="mb-4 bg-white dark:bg-gray-800 dark:text-gray-100 rounded-lg"
   >
     <div class="p-6 text-gray-900 dark:text-gray-100">
-      <form @submit.prevent="roleCreate">
+      <form @submit.prevent="cityCreate">
         <div class="relative flex flex-row gap-2">
           <TextInput
             type="text"
-            id="name_role"
+            id="name"
             class="w-full"
             v-model="form.name"
           />
           <label
-            for="name_role"
+            for="name"
             class="absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-            v-text="'Nome da Função'"
+            v-text="'Nome da Cidade'"
           />
 
           <PrimaryButton
@@ -40,16 +40,16 @@
     class="bg-white dark:bg-gray-800 dark:text-gray-100 rounded-lg mb-4"
   >
     <div class="p-6 text-gray-900 dark:text-gray-100">
-      <form @submit.prevent="roleUpdate">
+      <form @submit.prevent="cityUpdate">
         <div class="relative flex flex-row gap-2">
           <TextInput
             type="text"
-            id="name_role"
+            id="name"
             class="w-full"
             v-model="form.name"
           />
           <label
-            for="name_role"
+            for="name"
             class="absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
             v-text="'Novo Nome da Função'"
           />
@@ -99,21 +99,16 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="role in roles">
+          <template v-for="city in cities">
             <tr class="border-b dark:border-gray-700">
               <th
                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                v-html="role.name"
+                v-html="city.name"
               />
               <td class="px-4 py-3 flex justify-end">
                 <div class="flex flex-row gap-2">
-                  <Link :href="route('role.ability', role.id)">
-                    <i-material-symbols-security
-                      class="text-2xl flex text-green-600"
-                    />
-                  </Link>
                   <template v-if="editCreateShow">
-                    <button @click="editRole(role.id, role.name)">
+                    <button @click="editCity(city.id, city.name)">
                       <i-bxs-edit class="text-2xl flex text-yellow-600" />
                     </button>
                   </template>
@@ -133,8 +128,8 @@
 
   const tableHeader = ['name', 'Ações'];
 
-  const roleCreate = () => {
-    form.post(route('role.create'), {
+  const cityCreate = () => {
+    form.post(route('city.create'), {
       preserveScroll: true,
       onSuccess: () => {
         form.reset();
@@ -151,7 +146,7 @@
     editCreateShow.value = !editCreateShow.value;
   };
 
-  const editRole = (id, name) => {
+  const editCity = (id, name) => {
     form.id = id;
     form.name = name;
     editCreateHideShow();
@@ -162,8 +157,8 @@
     editCreateHideShow();
   };
 
-  const roleUpdate = () => {
-    form.put(route('role.update'), {
+  const cityUpdate = () => {
+    form.put(route('city.update'), {
       preserveScroll: true,
       onSuccess: () => {
         form.reset();
@@ -178,6 +173,6 @@
   });
 
   const props = defineProps({
-    roles: Object,
+    cities: Object,
   });
 </script>

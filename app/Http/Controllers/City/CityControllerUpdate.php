@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CityRequest;
 use App\Models\City;
 
-class CityControllerCreate extends Controller
+class CityControllerUpdate extends Controller
 {
 	/**
 	 * Handle the incoming request.
 	 */
 	public function __invoke(CityRequest $request)
 	{
-		City::create($request->validated());
+		City::findOrFail($request->id)->update($request->validated());
 	}
 }

@@ -8,13 +8,11 @@ use App\Models\Role;
 
 class RoleControllerCreate extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(RoleRequest $request)
-    {
-        $request->validated();
-
-        Role::create([ 'name' => $request->name ]);
-    }
+	/**
+	 * Handle the incoming request.
+	 */
+	public function __invoke(RoleRequest $request)
+	{
+		Role::create($request->validated());
+	}
 }

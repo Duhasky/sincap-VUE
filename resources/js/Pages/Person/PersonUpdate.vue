@@ -222,7 +222,7 @@
     form.post(route('person.update'), {
       preserveScroll: true,
       onSuccess: () => {
-        router.get(route('person.edit', person.id));
+        router.get(route('person.view', person.id));
       },
     });
   };
