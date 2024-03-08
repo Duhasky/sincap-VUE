@@ -45,10 +45,12 @@
       v-text="'Voltar'"
     />
     <PrimaryButton
+      v-if="auth.abilities.includes('person_update')"
       v-text="'Editar'"
       @click.prevent="form.get(route('person.edit', person.id))"
     />
     <DangerButton
+      v-if="auth.abilities.includes('person_delete')"
       @click.prevent="confirmUserDeletion(person, person.surname)"
       v-text="'Deletar'"
     />
@@ -69,6 +71,7 @@
             v-html="'Cancelar'"
           />
           <DangerButton
+            v-if="auth.abilities.includes('person_delete')"
             type="submit"
             :class="{ 'opacity-25': form.processing }"
             v-html="'Deletar'"

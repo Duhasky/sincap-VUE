@@ -13,6 +13,7 @@
             v-html="'Cancelar'"
           />
           <DangerButton
+            v-if="auth.abilities.includes('person_delete')"
             type="submit"
             :class="{ 'opacity-25': form.processing }"
             v-html="'Deletar'"
@@ -45,6 +46,7 @@
     <!-- Form de pesquisa -->
     <div>
       <PrimaryButton
+        v-if="auth.abilities.includes('person_create')"
         @click.prevent="newPerson"
         class="ml-2 justify-end align-middle"
         v-html="'Novo'"
@@ -59,10 +61,14 @@
         <Caroussel :pictures="person.photos">
           <template #surname> {{ person.surname }}</template>
           <template #buttons>
-            <Link :href="route('person.view', person.id)">
+            <Link
+              :href="route('person.view', person.id)"
+              v-if="auth.abilities.includes('person_read')"
+            >
               <i-mdi-eye-outline class="text-2xl text-yellow-300" />
             </Link>
             <button
+              v-if="auth.abilities.includes('person_delete')"
               @click.prevent="confirmUserDeletion(person, person.surname)"
             >
               <i-ic-outline-delete class="text-2xl text-red-600" />

@@ -183,6 +183,7 @@
             v-html="'Cancelar'"
           />
           <DangerButton
+            v-if="auth.abilities.includes('person_update')"
             type="submit"
             :class="{ 'opacity-25': form.processing }"
             v-html="'Deletar'"

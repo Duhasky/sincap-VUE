@@ -1,7 +1,7 @@
 <template>
   <!-- Ini ADD Group -->
   <div
-    v-if="editCreateShow"
+    v-if="auth.abilities.includes('group_create') && editCreateShow"
     class="mb-4 bg-white dark:bg-gray-800 dark:text-gray-100 rounded-lg"
   >
     <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -36,7 +36,7 @@
   <!-- Fim ADD Group -->
   <!-- Ini Editar Group -->
   <div
-    v-if="!editCreateShow"
+    v-if="auth.abilities.includes('group_update') && !editCreateShow"
     class="bg-white dark:bg-gray-800 dark:text-gray-100 rounded-lg mb-4"
   >
     <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -107,7 +107,11 @@
               />
               <td class="px-4 py-3 flex justify-end">
                 <div class="flex flex-row gap-2">
-                  <template v-if="editCreateShow">
+                  <template
+                    v-if="
+                      auth.abilities.includes('group_update') && editCreateShow
+                    "
+                  >
                     <button @click="groupEdit(group.id, group.name)">
                       <i-bxs-edit class="text-2xl flex text-yellow-600" />
                     </button>
@@ -125,6 +129,8 @@
 <script setup>
   import Layout from '@/Layouts/AuthenticatedLayout.vue';
   defineOptions({ layout: Layout });
+
+  const auth = usePage().props.auth;
 
   const tableHeader = ['Nome', 'Ações'];
 

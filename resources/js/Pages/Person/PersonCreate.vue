@@ -1,10 +1,10 @@
 <template>
   <h2
     class="text-2xl text-center text-gray-900 dark:text-gray-100 pb-4"
-    v-html="'Novo Cadastro'"
+    v-html="'Novo Cadastro de Pessoa'"
   />
 
-  <form>
+  <form @submit.prevent="save">
     <div>
       <InputLabel
         for="name"
@@ -76,43 +76,24 @@
         for="group"
         value="Facção"
       />
-      <div class="flex">
-        <Select
-          id="group"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="form.group_id"
-          :dataset="groups"
-        />
-        <button
-          class="px-3 ml-2 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-          v-text="'+'"
-          @click.prevent="ModalShow('group')"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.group_id"
-        />
-      </div>
+      <Select
+        id="group"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        v-model="form.group_id"
+        :dataset="groups"
+      />
     </div>
     <div class="mt-4">
       <InputLabel
         for="city"
         value="Cidade"
       />
-      <div class="flex">
-        <Select
-          id="city"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="form.city_id"
-          :dataset="cities"
-        />
-        <button
-          type="button"
-          class="px-3 ml-2 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-          v-text="'+'"
-          @click.prevent="ModalShow('city')"
-        />
-      </div>
+      <Select
+        id="city"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        v-model="form.city_id"
+        :dataset="cities"
+      />
       <InputError
         class="mt-2"
         :message="form.errors.city_id"
@@ -169,7 +150,6 @@
         class="mx-2"
         :class="{ 'opacity-25': form.processing }"
         v-html="'Salvar'"
-        @click.prevent="save"
       />
     </div>
   </form>

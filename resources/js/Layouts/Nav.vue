@@ -33,7 +33,7 @@
           </button>
 
           <Link
-            :href="route('dashboard')"
+            :href="route('home')"
             class="flex items-center justify-between mr-4"
           >
             <ApplicationLogo
@@ -100,7 +100,7 @@
             >
               <li
                 class="pl-4"
-                v-if="auth.abilities.includes('user_read')"
+                v-if="auth.abilities.includes('person_read')"
               >
                 <Link
                   :href="route('person.management')"
@@ -116,7 +116,7 @@
               </li>
               <li
                 class="pl-4"
-                v-if="auth.abilities.includes('user_read')"
+                v-if="auth.abilities.includes('city_read')"
               >
                 <Link
                   :href="route('city.management')"
@@ -131,7 +131,7 @@
                 </Link>
               </li>
               <li
-                v-if="auth.abilities.includes('role_admin')"
+                v-if="auth.abilities.includes('group_read')"
                 class="pl-4"
               >
                 <Link
