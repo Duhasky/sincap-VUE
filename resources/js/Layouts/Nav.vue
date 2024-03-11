@@ -41,8 +41,8 @@
             />
             <span
               class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-              >Actrum</span
-            >
+              v-text="appName"
+            />
           </Link>
         </div>
       </div>
@@ -58,7 +58,7 @@
     >
       <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
         <ul class="space-y-2">
-          <li>
+          <li v-if="auth.abilities.includes('role_admin')">
             <Link
               :href="route('dashboard')"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -73,7 +73,13 @@
           </li>
 
           <!-- Persons options -->
-          <li>
+          <li
+            v-if="
+              auth.abilities.includes('person_read') ||
+              auth.abilities.includes('city_read') ||
+              auth.abilities.includes('group_read')
+            "
+          >
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -149,7 +155,12 @@
             </ul>
           </li>
 
-          <li>
+          <li
+            v-if="
+              auth.abilities.includes('user_read') ||
+              auth.abilities.includes('role_admin')
+            "
+          >
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -245,6 +256,7 @@
 </template>
 <script setup>
   const auth = usePage().props.auth;
+  const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
   const sair = () => {
     router.post(route('logout'));
