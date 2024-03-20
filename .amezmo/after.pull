@@ -5,6 +5,7 @@ APP_ENV=$(cat .env | grep APP_ENV | cut -d '=' -f 2);
 
 echo "Running composer install from ${APPLICATION_ROOT}";
 composer2 --no-ansi --no-interaction --optimize-autoloader --no-progress --profile --no-cache install;
+composer2 --no-ansi --no-interaction --optimize-autoloader --no-progress --profile --no-cache update;
 
 echo "Running migrations for ${APP_ENV} environment";
 php artisan migrate --force;
